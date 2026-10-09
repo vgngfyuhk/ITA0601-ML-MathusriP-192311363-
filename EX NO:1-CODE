@@ -1,0 +1,11 @@
+# Separate attributes (excluding the non-predictive 'Day' column at index 0) and target
+attributes = data.iloc[:, 1:-1].values
+target = data.iloc[:, -1].values
+
+# Find the first positive example
+hypothesis = None
+for i in range(len(target)):
+    if str(target[i]).lower() == "yes":
+        hypothesis = list(attributes[i]).copy()
+        break
+…    print("No positive examples ('Yes') found in the dataset.")
