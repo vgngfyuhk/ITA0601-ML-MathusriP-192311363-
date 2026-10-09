@@ -1,0 +1,44 @@
+Example 1: ['Overcast' 'Mild' 'Normal' 'Strong'] | Class: Yes
+S = ['Overcast', 'Mild', 'Normal', 'Strong']
+G = [['?', '?', '?', '?']]
+
+Example 2: ['Sunny' 'Mild' 'Normal' 'Strong'] | Class: Yes
+S = ['?', 'Mild', 'Normal', 'Strong']
+G = [['?', '?', '?', '?']]
+
+Example 3: ['Sunny' 'Mild' 'High' 'Weak'] | Class: Yes
+S = ['?', 'Mild', '?', '?']
+G = [['?', '?', '?', '?']]
+
+Example 4: ['Sunny' 'Cool' 'Normal' 'Strong'] | Class: Yes
+S = ['?', '?', '?', '?']
+G = [['?', '?', '?', '?']]
+
+Example 5: ['Sunny' 'Mild' 'High' 'Weak'] | Class: Yes
+S = ['?', '?', '?', '?']
+G = [['?', '?', '?', '?']]
+
+Example 5422: ['Rainy' 'Cool' 'High' 'Weak'] | Class: No
+S = ['?', '?', '?', '?']
+G = []
+
+Example 5423: ['Overcast' 'Cool' 'High' 'Weak'] | Class: Yes
+S = ['?', '?', '?', '?']
+G = []
+
+Example 5424: ['Sunny' 'Hot' 'High' 'Strong'] | Class: No
+S = ['?', '?', '?', '?']
+G = []
+
+Example 5425: ['Sunny' 'Cool' 'Normal' 'Strong'] | Class: Yes
+S = ['?', '?', '?', '?']
+G = []
+
+======================================
+FINAL SPECIFIC BOUNDARY
+======================================
+['?', '?', '?', '?']
+
+======================================
+FINAL GENERAL BOUNDARY
+======================================
