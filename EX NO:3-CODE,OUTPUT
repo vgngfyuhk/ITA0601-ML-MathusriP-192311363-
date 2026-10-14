@@ -1,0 +1,213 @@
+
+# LARGE AND CLEAR ANN OUTPUT - EXPERIMENT 4
+
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# STEP 1: Plot training loss in large size
+plt.figure(figsize=(12, 6), dpi=150)
+plt.plot(loss_history, linewidth=2)
+plt.title("ANN Training Loss using Backpropagation", fontsize=18)
+plt.xlabel("Epoch", fontsize=14)
+plt.ylabel("Binary Cross-Entropy Loss", fontsize=14)
+plt.xticks(fontsize=11)
+plt.yticks(fontsize=11)
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("ANN_Training_Loss.png", dpi=300, bbox_inches="tight")
+plt.show()
+
+# STEP 2: Test the trained ANN
+hidden_test = sigmoid(X_test @ W1 + b1)
+output_test = sigmoid(hidden_test @ W2 + b2)
+predicted_numeric = (output_test >= 0.5).astype(int).ravel()
+
+actual_numeric = y_test.astype(int).ravel()
+accuracy = accuracy_score(actual_numeric, predicted_numeric)
+
+actual_labels = np.array(class_names)[actual_numeric]
+predicted_labels = np.array(class_names)[predicted_numeric]
+
+print("ARTIFICIAL NEURAL NETWORK - BACKPROPAGATION")
+print("-------------------------------------------")
+print("Training samples:", len(X_train))
+print("Testing samples:", len(X_test))
+print("Actual labels:", actual_labels)
+print("Predicted labels:", predicted_labels)
+print("Test Accuracy: {:.2f}%".format(accuracy * 100))
+
+# STEP 3: Display a large confusion matrix
+cm = confusion_matrix(actual_numeric, predicted_numeric, labels=[0, 1])
+
+fig, ax = plt.subplots(figsize=(8, 6), dpi=150)
+image = ax.imshow(cm, cmap="Blues")
+
+ax.set_title("ANN Confusion Matrix", fontsize=18)
+ax.set_xlabel("Predicted Class", fontsize=14)
+ax.set_ylabel("Actual Class", fontsize=14)
+ax.set_xticks([0, 1])
+ax.set_yticks([0, 1])
+ax.set_xticklabels(class_names, fontsize=12)
+ax.set_yticklabels(class_names, fontsize=12)
+
+for i in range(2):
+    for j in range(2):
+        ax.text(
+            j, i, str(cm[i, j]),
+            ha="center", va="center",
+            fontsize=18, fontweight="bold"
+        )
+
+fig.colorbar(image, ax=ax)
+plt.tight_layout()
+plt.savefig("ANN_Confusion_Matrix.png", dpi=300, bbox_inches="tight")
+plt.show()
+
+# STEP 4: Predict a new sample
+preferred_values = {
+    "outlook": "Sunny",
+    "temperature": "Cool",
+    "temp": "Cool",
+    "humidity": "High",
+    "wind": "Weak"
+}
+
+new_sample = {}
+
+for feature in features:
+    value = preferred_values.get(feature.lower())
+    if value not in df[feature].unique():
+        value = df[feature].mode()[0]
+    new_sample[feature] = value
+
+new_df = pd.DataFrame([new_sample])
+new_encoded = pd.get_dummies(new_df, dtype=float)
+new_encoded = new_encoded.reindex(columns=X_df.columns, fill_value=0)
+
+new_scaled = scaler.transform(new_encoded.to_numpy(dtype=float))
+hidden_new = sigmoid(new_scaled @ W1 + b1)
+output_new = sigmoid(hidden_new @ W2 + b2)
+
+predicted_class = class_names[int(output_new[0, 0] >= 0.5)]
+
+print("\nNew Sample:", new_sample)
+print("Output probability: {:.4f}".format(output_new[0, 0]))
+print("Predicted class:", predicted_class)
+print("\nExperiment 4 completed successfully!")
+
+
+OUTPUT:
+Play Tennis.csv(text/csv) - 204798 bytes, last modified: 10/7/2026 - 100% done
+Saving Play Tennis.csv to Play Tennis (1).csv
+Dataset loaded successfully!
+
+Dataset:
+    Outlook Temperature Humidity    Wind Play
+0  Overcast        Mild   Normal  Strong  Yes
+1     Sunny        Mild   Normal  Strong  Yes
+2     Sunny        Mild     High    Weak  Yes
+3     Sunny        Cool   Normal  Strong  Yes
+4     Sunny        Mild     High    Weak  Yes
+
+Target column: Play
+
+ID3 Decision Tree:
+Feature: Outlook
+  Overcast -->
+    Feature: Temperature
+      Cool -->
+        Predict: Yes
+      Hot -->
+        Feature: Humidity
+          High -->
+            Feature: Wind
+              Strong -->
+                Predict: No
+              Weak -->
+                Predict: Yes
+          Normal -->
+            Feature: Wind
+              Strong -->
+                Predict: Yes
+              Weak -->
+                Predict: Yes
+      Mild -->
+        Feature: Wind
+          Strong -->
+            Feature: Humidity
+              High -->
+                Predict: Yes
+              Normal -->
+                Predict: Yes
+          Weak -->
+            Predict: Yes
+  Rainy -->
+    Feature: Temperature
+      Cool -->
+        Feature: Humidity
+          High -->
+            Feature: Wind
+              Strong -->
+                Predict: No
+              Weak -->
+                Predict: Yes
+          Normal -->
+            Feature: Wind
+              Strong -->
+                Predict: Yes
+              Weak -->
+                Predict: Yes
+      Hot -->
+        Predict: No
+      Mild -->
+        Feature: Humidity
+          High -->
+            Predict: No
+          Normal -->
+            Feature: Wind
+              Strong -->
+                Predict: No
+              Weak -->
+                Predict: Yes
+  Sunny -->
+    Feature: Temperature
+      Cool -->
+        Feature: Wind
+          Strong -->
+            Feature: Humidity
+              High -->
+                Predict: Yes
+              Normal -->
+                Predict: Yes
+          Weak -->
+            Predict: Yes
+      Hot -->
+        Feature: Humidity
+          High -->
+            Predict: No
+          Normal -->
+            Feature: Wind
+              Strong -->
+                Predict: No
+              Weak -->
+                Predict: Yes
+      Mild -->
+        Feature: Humidity
+          High -->
+            Feature: Wind
+              Strong -->
+                Predict: No
+              Weak -->
+                Predict: Yes
+          Normal -->
+            Feature: Wind
+              Strong -->
+                Predict: Yes
+              Weak -->
+                Predict: Yes
+
+New Sample:
+{'Outlook': 'Sunny', 'Temperature': 'Cool', 'Humidity': 'High', 'Wind': 'Weak'}
+Predicted class: Yes
+
